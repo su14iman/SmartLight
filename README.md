@@ -15,6 +15,10 @@ Der ESP8266 wird über WLAN mit dem Netzwerk verbunden und kommuniziert über MQ
     * Kabel
     * Raspberry pi 400
     * Access Point -> Wlan
+### Software:
+    * MQTT -> mosquitto
+    * Nodejs: >= 18
+    * Node-red
 
 ### Beispielbild:
 ![WeMos_D1_R2_WiFi_ESP8266](assets/images/WeMos_D1_R2_WiFi_ESP8266.jpeg)
