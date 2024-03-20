@@ -27,23 +27,31 @@ Der ESP8266 wird über WLAN mit dem Netzwerk verbunden und kommuniziert über MQ
 ## Projektdurchführung
 1. Die Bibliotheken importieren
 ![bibliotheken](/assets/codes/0.png)
+
 2. Die pins definieren
 ![pins](/assets/codes/1.png)
 3. Die wichtige Variablen definieren
 ![variablen](/assets/codes/2.png)
+
 4. Einrichtung der WLAN-Verbindung des ESP8266 mit dem Netzwerk.
 ![setupWifi](/assets/codes/4.png)
+
 5. Verbindung des ESP8266 mit dem MQTT-Broker und Abonnement des Topics "rgb".
 ![setupMQTT](/assets/codes/7.png)
+
 6. Implementierung einer Callback-Funktion, die aufgerufen wird, wenn eine Nachricht über MQTT empfangen wird.
 ![setupCallback](/assets/codes/6.png)
+
 7. Extraktion der RGB-Farbwerte aus der empfangenen Nachricht und Anpassung der Helligkeit und Einstellung der RGB-LED entsprechend den extrahierten Farbwerten.
 ![readRGB](/assets/codes/5.png)
+
 8. Die Funktionen in Setup/Loop-Funktion aufrufen
 ![SetupLoop-FN-aufrufen](/assets/codes/8.png)
+
 9. Node-Red einrichten
 ![noderedFlow](/assets/images/nodered-flow.png)
-9. Die Topic in Node-Red einrichten
+
+10. Die Topic in Node-Red einrichten
 ![noderedSettings](/assets/images/nodered-settings.png)
 
 
