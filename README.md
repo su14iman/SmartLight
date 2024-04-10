@@ -1,6 +1,18 @@
 # SmartLight
+
 Das Ziel dieses Projekts ist es, eine RGB-Lampe zu entwickeln, die über ein Smartphone gesteuert werden kann. Die Steuerung erfolgt über einen ColorPicker in Node-Red, der mit einem MQTT-Knoten verbunden ist. Die übermittelten Daten haben das Format "rgb(255, 255, 255)", wobei die Reihenfolge der Farben Rot, Grün und Blau ist. 
 Der ESP8266 soll diese Daten empfangen, die Farbwerte extrahieren und die RGB-LED entsprechend einstellen.
+
+### Index
+<ol>
+   <li><a href="#">Hardware / Aufbau</a></li>
+   <li><a href="#">Hardware komponenten</a></li>
+   <li><a href="#">Software</a></li>
+   <li><a href="#">Beispielbild</a></li>
+   <li><a href="#">Projektdurchführung</a></li>
+   <li><a href="#">Qualitätssicherung/Tests</a></li>
+   <li><a href="#">Hinweise zur realen Umsetzung</a></li>
+</ol>
 
 ## Hardware / Aufbau
 Die Hardware besteht aus einem ESP8266-Mikrocontroller, einer RGB-LED, Resistor 1k Ω, Test-Board und Kabel. 
@@ -26,32 +38,134 @@ Der ESP8266 wird über WLAN mit dem Netzwerk verbunden und kommuniziert über MQ
 
 ## Projektdurchführung
 1. Die Bibliotheken importieren
-![bibliotheken](/assets/codes/0.png)
+```cpp
+#include <ESP8266WiFi.h>  // Bibliothek für die WiFi Funktionen
+#include <PubSubClient.h> // Bilbiothek für MQTT Funktionen
+#include <WiFiUdp.h>
+```
 
 2. Die pins definieren
-![pins](/assets/codes/1.png)
-3. Die wichtige Variablen definieren
-![variablen](/assets/codes/2.png)
+```cpp
+#define ledBlue D5
+#define ledRed D6
+#define ledGreen D7
+```
+4. Die wichtige Variablen definieren
+```cpp
+// WiFi
+const char* ssid = "EVP-LF7";
+const char* wifi_password = "APevpLF7";
 
-4. Einrichtung der WLAN-Verbindung des ESP8266 mit dem Netzwerk.
-![setupWifi](/assets/codes/4.png)
+// MQTT
+const char* mqtt_server = "ssf.local";
+const char* mqtt_topic = "rgb"; 
+const char* mqtt_username = "ssf";
+const char* mqtt_password = "a123123@";
+const char* clientID = "";
 
-5. Verbindung des ESP8266 mit dem MQTT-Broker und Abonnement des Topics "rgb".
-![setupMQTT](/assets/codes/7.png)
+// Initialisiere Wifi und MQTT
+WiFiClient wifiClient;
+PubSubClient client(mqtt_server, 1883, wifiClient); // 1883 ist der Port für den Broker
 
-6. Implementierung einer Callback-Funktion, die aufgerufen wird, wenn eine Nachricht über MQTT empfangen wird.
-![setupCallback](/assets/codes/6.png)
+```
 
-7. Extraktion der RGB-Farbwerte aus der empfangenen Nachricht und Anpassung der Helligkeit und Einstellung der RGB-LED entsprechend den extrahierten Farbwerten.
-![readRGB](/assets/codes/5.png)
+5. Einrichtung der WLAN-Verbindung des ESP8266 mit dem Netzwerk.
+```cpp
+void setupWiFi() {
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
 
-8. Die Funktionen in Setup/Loop-Funktion aufrufen
-![SetupLoop-FN-aufrufen](/assets/codes/8.png)
+  // Stellt Verbindung mit dem Netzwerk her
+  WiFi.begin(ssid, wifi_password);
 
-9. Node-Red einrichten
+  // Warten bis die Verbindung aufgebaut ist
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  // Ausgabe der IP Adresse des ESP
+  Serial.println("WiFi connected");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+}
+```
+
+6. Verbindung des ESP8266 mit dem MQTT-Broker und Abonnement des Topics "rgb".
+```cpp
+void setupMQTT() {
+  // Verbindung mit MQTT Broker (Mosquitto)
+  if (client.connect(clientID, mqtt_username, mqtt_password)) {
+    Serial.println("Connected to MQTT Broker!");
+  }
+  else {
+    Serial.println("Connection to MQTT Broker failed...");
+  }
+
+  // callback Funktion wird aufgerufen, sobald ein abonniertes Topic eine Nachricht vom Broker erhält.
+  client.setCallback(callback);
+  client.subscribe(mqtt_topic);
+}
+```
+
+7. Implementierung einer Callback-Funktion, die aufgerufen wird, wenn eine Nachricht über MQTT empfangen wird.
+```cpp
+void callback(String topic, byte* message, unsigned int length) {
+  Serial.println(topic);
+  String msg;
+  for (int i=0; i<length; i++) {
+    // Serial.print((char)message[i]);
+    msg += (char)message[i];
+  }
+  Serial.println();
+  readRGB(msg);
+}
+```
+
+8. Extraktion der RGB-Farbwerte aus der empfangenen Nachricht und Anpassung der Helligkeit und Einstellung der RGB-LED entsprechend den extrahierten Farbwerten.
+```cpp
+void readRGB(String rgbString){
+
+  rgbString.replace("rgb", "");
+  rgbString.replace("(", "");
+  rgbString.replace(")", "");
+  rgbString.trim();
+  
+  int comma1 = rgbString.indexOf(",");
+  int comma2 = rgbString.lastIndexOf(",");
+
+  int R = rgbString.substring(0, comma1).toInt();
+  int G = rgbString.substring(comma1 + 1, comma2).toInt();
+  int B = rgbString.substring(comma2 + 1).toInt();
+  
+  if(R < 0 ) R = 0;
+  if(G < 0 ) G = 0;
+  if(B < 0) B = 0;
+
+  analogWrite(ledRed,   R > 250 ? 250 : R);
+  analogWrite(ledGreen, G > 250 ? 250 : G);
+  analogWrite(ledBlue,  B > 250 ? 250 : B);
+}
+```
+
+9. Die Funktionen in Setup/Loop-Funktion aufrufen
+```cpp
+void setup() {
+  Serial.begin(115200);
+  setupWiFi();
+  setupMQTT();
+}
+
+void loop() {
+  if (!client.connected()) setupMQTT();
+  client.loop();
+}
+```
+
+10. Node-Red einrichten
 ![noderedFlow](/assets/images/nodered-flow.png)
 
-10. Die Topic in Node-Red einrichten
+11. Die Topic in Node-Red einrichten
 ![noderedSettings](/assets/images/nodered-settings.png)
 
 
