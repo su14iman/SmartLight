@@ -9,21 +9,7 @@ Der ESP8266 soll diese Daten empfangen, die Farbwerte extrahieren und die RGB-LE
    <li><a href="#HardwareKomponenten">Hardware komponenten</a></li>
    <li><a href="#Software">Software</a></li>
    <li><a href="#Beispielbild">Beispielbild</a></li>
-   <li>
-      <a href="#Projektdurchführung">Projektdurchführung</a>
-      <ol>
-         <li><a href="#BibliothekenImportieren">Die Bibliotheken importieren</a></li>
-         <li><a href="#PinsDefinieren">Die pins definieren</a></li>
-         <li><a href="#VariablenDefinieren">Die wichtige Variablen definieren</a></li>
-         <li><a href="#WLAN-Verbindung">Einrichtung der WLAN-Verbindung des ESP8266 mit dem Netzwerk.</a></li>
-         <li><a href="#MQTT-Broker">Verbindung des ESP8266 mit dem MQTT-Broker und Abonnement des Topics "rgb".</a></li>
-         <li><a href="#Callback-Funktion">Implementierung einer Callback-Funktion, die aufgerufen wird, wenn eine Nachricht über MQTT empfangen wird.</a></li>
-         <li><a href="#RGB-Farbwerte">Extraktion der RGB-Farbwerte aus der empfangenen Nachricht und Anpassung der Helligkeit und Einstellung der RGB-LED entsprechend den extrahierten Farbwerten.</a></li>
-         <li><a href="#SetupUndLoop-Funktion">Die Funktionen in Setup/Loop-Funktion aufrufen</a></li>
-         <li><a href="#NodeRed">Node-Red einrichten</a></li>
-         <li><a href="#Topic-NodeRed">Die Topic in Node-Red einrichten</a></li>
-       </ol>
-   </li>
+   <li><a href="#Projektdurchführung">Projektdurchführung</a></li>
    <li><a href="#QualitätssicherungTests">Qualitätssicherung/Tests</a></li>
    <li><a href="#HinweiseZurRealenUmsetzung">Hinweise zur realen Umsetzung</a></li>
 </ol>
@@ -34,6 +20,7 @@ Die RGB-LED wird mit den Pins D5, D6 und D7 des ESP8266 verbunden, die jeweils d
 Der ESP8266 wird über WLAN mit dem Netzwerk verbunden und kommuniziert über MQTT mit dem Raspberry Broker.
 
 <h3 id="HardwareKomponenten">Hardware komponenten:</h3>
+
     * WeMos D1 R2 WiFi ESP8266
     * Test-Board
     * RGB LED
@@ -41,16 +28,20 @@ Der ESP8266 wird über WLAN mit dem Netzwerk verbunden und kommuniziert über MQ
     * Kabel
     * Raspberry pi 400
     * Access Point -> Wlan
+
 <h3 id="Software">Software</h3>
+
     * MQTT -> mosquitto
     * Nodejs: >= 18
     * Node-red
 
 <h3 id="Beispielbild">Beispielbild</h3>
+
 ![WeMos_D1_R2_WiFi_ESP8266](assets/images/WeMos_D1_R2_WiFi_ESP8266.jpeg)
 
 
 <h2 id="Projektdurchführung">Projektdurchführung</h2>
+
 1. Die Bibliotheken importieren
 ```cpp
 #include <ESP8266WiFi.h>  // Bibliothek für die WiFi Funktionen
