@@ -176,6 +176,7 @@ void loop() {
 
 <h2 id="QualitätssicherungTests">Qualitätssicherung/Tests</h2>
 Die Qualitätssicherung umfasst die Überprüfung der ordnungsgemäßen Funktion der RGB-Lampe. Hierbei werden verschiedene Farben über den ColorPicker in Node-Red ausgewählt und die Reaktion der RGB-LED überprüft. Es werden auch Grenzfälle getestet, um sicherzustellen, dass das System robust und zuverlässig ist.
+
 ![readRGB](/assets/images/nodered-ui.png)
 
 
