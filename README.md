@@ -5,7 +5,7 @@ Der ESP8266 soll diese Daten empfangen, die Farbwerte extrahieren und die RGB-LE
 
 ### Index
 <ol>
-   <li><a href="#">Hardware / Aufbau</a></li>
+   <li><a href="#" name="HardwareAufbau">Hardware / Aufbau</a></li>
    <li><a href="#">Hardware komponenten</a></li>
    <li><a href="#">Software</a></li>
    <li><a href="#">Beispielbild</a></li>
@@ -29,7 +29,7 @@ Der ESP8266 soll diese Daten empfangen, die Farbwerte extrahieren und die RGB-LE
    <li><a href="#">Hinweise zur realen Umsetzung</a></li>
 </ol>
 
-## Hardware / Aufbau
+## Hardware / Aufbau <a name="HardwareAufbau"></a>
 Die Hardware besteht aus einem ESP8266-Mikrocontroller, einer RGB-LED, Resistor 1k Ω, Test-Board und Kabel. 
 Die RGB-LED wird mit den Pins D5, D6 und D7 des ESP8266 verbunden, die jeweils die Farben Blau, Rot und Grün steuern. 
 Der ESP8266 wird über WLAN mit dem Netzwerk verbunden und kommuniziert über MQTT mit dem Raspberry Broker.
