@@ -9,7 +9,22 @@ Der ESP8266 soll diese Daten empfangen, die Farbwerte extrahieren und die RGB-LE
    <li><a href="#">Hardware komponenten</a></li>
    <li><a href="#">Software</a></li>
    <li><a href="#">Beispielbild</a></li>
-   <li><a href="#">Projektdurchführung</a></li>
+   <li>
+      <a href="#">Projektdurchführung</a>
+      <ol>
+         <li><a href="#">Die Bibliotheken importieren</a></li>
+         <li><a href="#">Die pins definieren</a></li>
+         <li><a href="#">Die wichtige Variablen definieren</a></li>
+         <li><a href="#">Die wichtige Variablen definieren</a></li>
+         <li><a href="#">Einrichtung der WLAN-Verbindung des ESP8266 mit dem Netzwerk.</a></li>
+         <li><a href="#">Verbindung des ESP8266 mit dem MQTT-Broker und Abonnement des Topics "rgb".</a></li>
+         <li><a href="#">Implementierung einer Callback-Funktion, die aufgerufen wird, wenn eine Nachricht über MQTT empfangen wird.</a></li>
+         <li><a href="#">Extraktion der RGB-Farbwerte aus der empfangenen Nachricht und Anpassung der Helligkeit und Einstellung der RGB-LED entsprechend den extrahierten Farbwerten.</a></li>
+         <li><a href="#">Die Funktionen in Setup/Loop-Funktion aufrufen</a></li>
+         <li><a href="#">Node-Red einrichten</a></li>
+         <li><a href="#">Die Topic in Node-Red einrichten</a></li>
+       </ol>
+   </li>
    <li><a href="#">Qualitätssicherung/Tests</a></li>
    <li><a href="#">Hinweise zur realen Umsetzung</a></li>
 </ol>
