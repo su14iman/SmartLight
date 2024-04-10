@@ -5,7 +5,7 @@ Der ESP8266 soll diese Daten empfangen, die Farbwerte extrahieren und die RGB-LE
 
 ### Index
 <ol>
-   <li><a href="#" name="HardwareAufbau">Hardware / Aufbau</a></li>
+   <li><a name="HardwareAufbau">Hardware / Aufbau</a></li>
    <li><a href="#">Hardware komponenten</a></li>
    <li><a href="#">Software</a></li>
    <li><a href="#">Beispielbild</a></li>
